@@ -1,0 +1,27 @@
+- name:  install software-properties-common
+  become: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - software-properties-common
+
+- name: add a repository for y-ppa-manager
+  become: yes
+  apt_repository:
+    repo: 'ppa:webupd8team/y-ppa-manager'
+    state: present
+
+- name: install apt utils
+  become: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - dpkg-dev
+    - apt-file
+    - y-ppa-manager
+    - ppa-purge
+
+- name: update apt-file cache
+  become: no
+  shell: |
+    apt-file update
+  args:
+    creates: "/home/{{ ansible_ssh_user }}/.cache/apt-file"

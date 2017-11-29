@@ -1,0 +1,9 @@
+- name: install pyqt5
+  become: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - libfontconfig1
+    - mesa-common-dev
+    - libglu1-mesa-dev
+    - python3-pyqt5
+    - python3-pyqt5.qtserialport

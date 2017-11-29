@@ -1,0 +1,6 @@
+  # Ubuntuデフォルトより見た目は質素だが軽量なデスクトップ環境
+- name: install lubuntu
+  become: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - lubuntu-desktop

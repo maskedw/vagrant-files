@@ -1,0 +1,56 @@
+- name: installing a package to build Vim
+  become: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - exuberant-ctags
+    - cscope
+    - libperl-dev
+    - python-dev
+    - python2.7-dev
+    - python3-dev
+    - ruby-dev
+    - tcl-dev
+    - lua5.2
+    - liblua5.2-dev
+    - libluajit-5.1-dev
+    - luajit
+    - libncurses5-dev
+    - libxmu-dev
+    - libxpm-dev
+    - libgtk2.0-dev
+- name: download Vim source code
+  become: yes
+  git:
+    repo: https://github.com/vim/vim.git
+    dest: /usr/local/src/vim
+    update: no
+    depth: 1
+  register: download_vim
+
+- name: build and install Vim
+  become: yes
+  shell: |
+    cd vim
+    ./configure                                                          \
+    --prefix=/usr/local                                                  \
+    --enable-cscope                                                      \
+    --enable-perlinterp=yes                                              \
+    --enable-rubyinterp=yes                                              \
+    --enable-luainterp=yes                                               \
+    --enable-pythoninterp=yes                                            \
+    --enable-python3interp=yes                                           \
+    --enable-xim                                                         \
+    --enable-fontset                                                     \
+    --with-features=huge                                                 \
+    --with-luajit                                                        \
+    --with-tlib=ncurses                                                  \
+    --with-python-config-dir=`/usr/bin/python-config --configdir`        \
+    --with-python3-config-dir=`/usr/bin/python3-config --configdir`      \
+    --enable-fail-if-missing 2>&1 | tee config.log
+    make -j4
+    make install
+    make clean
+  args:
+    chdir: /usr/local/src/vim
+    creates: /usr/local/bin/vim
+  when: download_vim|success

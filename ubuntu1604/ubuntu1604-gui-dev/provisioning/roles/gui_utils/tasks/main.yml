@@ -1,0 +1,7 @@
+- name: install gui_utils
+  become: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - synaptic
+    - gnome-do
+    - gparted

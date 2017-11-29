@@ -1,0 +1,69 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://atlas.hashicorp.com/search.
+  config.vm.box = "bento/ubuntu-16.04"
+  config.vm.define "mw-ubuntu1604-dev"
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  config.vm.box_check_update = false
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  config.vm.network "private_network", ip: "192.168.33.10"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  # config.vm.network "public_network"
+
+  # 共有フォルダの設定
+  config.vm.synced_folder ENV['HOME'] + '/Dropbox', '/home/vagrant/Dropbox', :mount_options => ['dmode=777', 'fmode=777']
+
+  config.ssh.forward_x11 = true
+  config.vm.provider "virtualbox" do |vb|
+    # GUIを使う時はtrue
+    vb.gui = false
+
+    vb.name = "vb-mw-ubuntu1604-dev"
+
+    # 仮想マシンに割り当てるメモリサイズ[MByte]
+    vb.memory = "6144"
+
+    # クリップボードの共有: 双方向
+    vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+
+    # 割りあてるコア数
+    vb.customize ["modifyvm", :id, "--cpus", "4", "--ioapic", "on"]
+
+    # ビデオメモリー(MB)
+    vb.customize ["modifyvm", :id, "--vram"  , "128"]
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+  end
+
+  # http://mid0111.hatenablog.com/entry/2014/06/08/123643
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.playbook = "./provisioning/playbook.yml"
+    ansible.become = true
+    ansible.limit = "all"
+    ansible.verbose = "vvv"
+    ansible.inventory_path = "./provisioning/inventory"
+  end
+end

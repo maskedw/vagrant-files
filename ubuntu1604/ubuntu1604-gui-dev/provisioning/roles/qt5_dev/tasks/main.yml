@@ -1,0 +1,16 @@
+# http://www.lucidarme.me/?p=4061
+# https://wiki.qt.io/Install_Qt_5_on_Ubuntu
+# https://askubuntu.com/questions/508503/whats-the-development-package-for-qt5-in-14-04
+- name: install qt5_dev
+  become: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - libfontconfig1
+    - mesa-common-dev
+    - libglu1-mesa-dev
+    - qtcreator
+    - qt5-default
+    - qtdeclarative5-dev
+    - qt5-qmake
+    - libqt5serialport5-dev
+    - libqt5qml5
