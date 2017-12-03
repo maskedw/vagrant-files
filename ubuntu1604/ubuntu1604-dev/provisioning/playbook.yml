@@ -11,18 +11,4 @@
     - apt_utils
     - c++_utils
     - python_extra
-  tasks:
-    - name: bashrc TERM settings
-      become: no
-      blockinfile:
-        dest: "/home/{{ ansible_ssh_user }}/.bashrc"
-        block: |
-          # 日本語設定をした後にCUIで起動すると文字化けしてしまう。CUIで起動する時の端末
-          # (linux)は日本語に対応していないからだ。
-          # これは環境変数TERMを見れば判定できるので、TERM == linuxの時はLANG=Cとすること
-          # で文字化けを防ぐことができる。
-          # http://iwamocchan11.hatenadiary.jp/entry/2015/04/26/014616
-          case $TERM in
-              linux) LANG=C ;;
-              *)     LANG=ja_JP.UTF-8;;
-          esac
+    - nfs_server

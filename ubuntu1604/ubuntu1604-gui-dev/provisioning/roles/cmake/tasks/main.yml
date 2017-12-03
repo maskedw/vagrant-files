@@ -1,9 +1,0 @@
-- name: add a repository for CMake
-  become: yes
-  apt_repository:
-    repo: 'ppa:george-edison55/cmake-3.x'
-    state: present
-
-- name: install CMake
-  become: yes
-  apt: name=cmake state=latest

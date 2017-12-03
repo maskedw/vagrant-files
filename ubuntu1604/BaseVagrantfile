@@ -1,0 +1,52 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+
+require 'yaml'
+require 'fileutils'
+
+yaml = YAML.load_file("./provisioning/playbook.yml")[0]
+FileUtils::mkdir_p './provisioning/roles'
+FileUtils.cp('../play-local.sh', './provisioning')
+FileUtils.cp('../inventory', './provisioning')
+
+for role in yaml['roles'] do
+    path = '../ansible-roles/' + role
+    FileUtils.cp_r(path, './provisioning/roles')
+    # FileUtils.cp_r(path, './provisioning/roles', {:noop => true, :verbose => true})
+end
+
+Vagrant.configure("2") do |config|
+  config.vm.box_check_update = false
+  config.vm.network :private_network, type: "dhcp"
+  config.vm.synced_folder ENV['HOME'] + '/Dropbox', '/home/vagrant/Dropbox', :mount_options => ['dmode=777', 'fmode=777']
+  config.ssh.forward_x11 = true
+
+  config.vm.provider "virtualbox" do |vb|
+    # GUIを使う時はtrue
+    vb.gui = false
+
+    # 仮想マシンに割り当てるメモリサイズ[MByte]
+    vb.memory = "1024"
+
+    # クリップボードの共有: 双方向
+    vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+
+    # 割りあてるコア数
+    vb.customize ["modifyvm", :id, "--cpus", "1", "--ioapic", "on"]
+
+    # ビデオメモリー(MB)
+    # vb.customize ["modifyvm", :id, "--vram"  , "128"]
+
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+  end
+
+  # http://mid0111.hatenablog.com/entry/2014/06/08/123643
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.playbook = "./provisioning/playbook.yml"
+    ansible.become = true
+    ansible.limit = "all"
+    ansible.verbose = "vvv"
+    ansible.inventory_path = "./provisioning/inventory"
+  end
+end

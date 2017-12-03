@@ -1,0 +1,33 @@
+- name: install nfs_server
+  become: yes
+  apt: name={{ item }} state=present
+  with_items:
+    - nfs-kernel-server
+  register: nfs_server
+
+- name: mkdir /nfsroot
+  become: yes
+  file:
+    path: /nfsroot
+    state: directory
+    mode: 0777
+
+- name: setup /etc/exports
+  become: yes
+  lineinfile:
+    dest: /etc/exports
+    state: present
+    line: '/nfsroot  *(rw,sync,no_root_squash,no_subtree_check)'
+
+- name: open NFS port
+  become: yes
+  shell: |
+    ufw allow 2049/tcp
+  when: nfs_server|changed
+
+- name: restart nfs service
+  become: yes
+  service:
+    name: nfs-kernel-server
+    state: restarted
+  when: nfs_server|changed
