@@ -1,5 +1,6 @@
+---
 - name: install gui_core
-  become: yes
+  become: 'yes'
   apt: name={{ item }} state=present
   with_items:
     # https://github.com/openai/gym/issues/509

@@ -1,20 +1,21 @@
+---
 - name: installing a package to build Ninja
-  become: yes
+  become: 'yes'
   apt: name={{ item }} state=present
   with_items:
     - re2c
 
 - name: download Ninja source code
-  become: yes
+  become: 'yes'
   git:
     repo: https://github.com/ninja-build/ninja.git
     dest: /usr/local/src/ninja
-    update: no
+    update: 'no'
     depth: 1
   register: download_ninja
 
 - name: build and install Ninja
-  become: yes
+  become: 'yes'
   shell: |
     ./configure.py  --bootstrap
     cp ninja /usr/local/bin

@@ -1,5 +1,6 @@
+---
 - name: install 'nodejs'
-  become: yes
+  become: 'yes'
   # http://qiita.com/seibe/items/36cef7df85fe2cefa3ea
   shell: |
       apt-get install -y nodejs npm
@@ -11,7 +12,7 @@
     creates: /usr/local/bin/node
 
 - name: install 'electron'
-  become: yes
+  become: 'yes'
   # https://github.com/npm/npm/issues/17268
   shell: |
       npm install -g electron --unsafe-perm=true --allow-root

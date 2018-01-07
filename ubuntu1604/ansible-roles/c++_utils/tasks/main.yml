@@ -1,5 +1,6 @@
+---
 - name: install c++utils
-  become: yes
+  become: 'yes'
   apt: name={{ item }} state=present
   with_items:
     - exuberant-ctags
@@ -12,7 +13,7 @@
 # libclang.soはVimのプラグインとか拡張系でよく使われる。標準的なパスにシンボ
 # リックリンクを作成しておいた方が扱いやすい
 - name: mklink libclang.so
-  become: yes
+  become: 'yes'
   shell: |
       ln -s /usr/lib/llvm-3.8/lib/libclang.so /usr/lib/libclang.so
   args:
