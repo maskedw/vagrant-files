@@ -1,5 +1,6 @@
+---
 - name: installing a package to build Vim
-  become: yes
+  become: 'yes'
   apt: name={{ item }} state=present
   with_items:
     - exuberant-ctags
@@ -19,16 +20,16 @@
     - libxpm-dev
     - libgtk2.0-dev
 - name: download Vim source code
-  become: yes
+  become: 'yes'
   git:
     repo: https://github.com/vim/vim.git
     dest: /usr/local/src/vim
-    update: no
+    update: 'no'
     depth: 1
   register: download_vim
 
 - name: build and install Vim
-  become: yes
+  become: 'yes'
   shell: |
     cd vim
     ./configure                                                          \

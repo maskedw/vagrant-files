@@ -1,5 +1,6 @@
+---
 - name: install build_core
-  become: yes
+  become: 'yes'
   apt: name={{ item }} state=present
   with_items:
     # アプリケーションをソースからビルドする際に、この辺のパッケージはよく必要になる

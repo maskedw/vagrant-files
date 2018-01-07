@@ -1,6 +1,6 @@
+---
 # https://qiita.com/hidekuro/items/835ad3b0262ef5203e4d
 # https://qiita.com/hidekuro/items/628645799247f0939724
-
 - name: change mirror
   replace: >
     dest="/etc/apt/sources.list"
@@ -58,14 +58,14 @@
     regexp="{{ item.regexp }}"
     line="{{ item.line }}"
   with_items:
-    - { regexp: "XKBMODEL=", line: 'XKBMODEL="pc105"' }
-    - { regexp: "XKBLAYOUT=", line: 'XKBLAYOUT="jp"' }
-    - { regexp: "XKBVARIANT=", line: 'XKBVARIANT="OADG109A"' }
+    - {regexp: "XKBMODEL=", line: 'XKBMODEL="pc105"'}
+    - {regexp: "XKBLAYOUT=", line: 'XKBLAYOUT="jp"'}
+    - {regexp: "XKBVARIANT=", line: 'XKBVARIANT="OADG109A"'}
   when: install_language_pack|changed
 
 # add-apt-repositoryのために必要
-- name:  install software-properties-common
-  become: yes
+- name: install software-properties-common
+  become: 'yes'
   apt: name={{ item }} state=present
   with_items:
     - software-properties-common
@@ -77,7 +77,7 @@
     - "ibus-mozc"
 
 - name: bashrc TERM settings
-  become: no
+  become: 'no'
   blockinfile:
     dest: "/home/{{ ansible_ssh_user }}/.bashrc"
     block: |

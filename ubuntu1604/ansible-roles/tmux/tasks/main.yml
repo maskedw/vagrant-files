@@ -1,12 +1,13 @@
+---
 - name: install tmux
-  become: yes
+  become: 'yes'
   apt: name=tmux state=latest
 
 # tmuxのプラグインマネージャ
 - name: install tpm
-  become: no
+  become: 'no'
   git:
     repo: https://github.com/tmux-plugins/tpm
     dest: "/home/{{ ansible_ssh_user }}/.tmux/plugins/tpm"
-    update: no
+    update: 'no'
     depth: 1
