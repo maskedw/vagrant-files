@@ -20,3 +20,4 @@
     - python_extra
     - nfs_server
     - nodejs
+    - golang

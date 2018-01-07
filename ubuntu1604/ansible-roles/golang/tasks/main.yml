@@ -1,0 +1,12 @@
+---
+- name: add a repository for golang
+  become: 'yes'
+  apt_repository:
+    repo: 'ppa:longsleep/golang-backports'
+    state: present
+
+- name: install golang
+  become: 'yes'
+  apt: name={{ item }} state=present
+  with_items:
+    - golang-go

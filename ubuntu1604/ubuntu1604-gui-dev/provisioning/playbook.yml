@@ -1,3 +1,4 @@
+---
 - hosts: all
   roles:
     - bootstrap
@@ -19,6 +20,7 @@
     - python_extra
     - nfs_server
     - nodejs
+    - golang
     - lubuntu
     - gui_utils
     - qt5_dev
