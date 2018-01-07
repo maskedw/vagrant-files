@@ -7,6 +7,7 @@
     - ccache
     - clang
     - libclang-dev
+    - clang-tidy
 
 # libclang.soはVimのプラグインとか拡張系でよく使われる。標準的なパスにシンボ
 # リックリンクを作成しておいた方が扱いやすい

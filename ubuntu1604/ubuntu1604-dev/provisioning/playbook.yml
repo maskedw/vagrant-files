@@ -1,14 +1,22 @@
+---
 - hosts: all
   roles:
     - bootstrap
+    - apt_utils
+    - pip
+    - ansible
+    - git
     - vcs
-    - vim
     - core_utils
+    - linter
+    - vcs
+    - build_core
+    - vim
     - cmake
     - zsh
     - tmux
     - ninja
-    - apt_utils
     - c++_utils
     - python_extra
     - nfs_server
+    - nodejs

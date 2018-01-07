@@ -13,3 +13,8 @@ Vagrant.configure("2") do |config|
     vb.name = "vb-mw-ubuntu1604-base"
   end
 end
+
+
+if File.file?('Vagrantfile.local') then
+    load 'Vagrantfile.local'
+end

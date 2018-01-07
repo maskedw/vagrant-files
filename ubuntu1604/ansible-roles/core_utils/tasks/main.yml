@@ -2,12 +2,15 @@
   become: yes
   apt: name={{ item }} state=present
   with_items:
+    - tree
     - imagemagick
-    - unzip
     - curl
     - wget
-    - imagemagick
     - nkf
+    - unzip
+    - p7zip-full
+    - unrar-free
+    - lftp
     # SSH時にX11Forwardingでコピペできるようにするため
     - xclip
     - xsel
@@ -18,22 +21,3 @@
     - manpages-dev
     - manpages-ja
     - manpages-ja-dev
-    # アプリケーションをソースからビルドする際に、この辺のパッケージはよく必要になる
-    - libtiff5-dev
-    - libjpeg8-dev
-    - libfreetype6-dev
-    - libncurses5-dev
-    - libncursesw5-dev
-    - libxmu-dev
-    - libxpm-dev
-    - libevent-dev
-    - libtool
-    - libtool-bin
-    - autoconf
-    - automake
-    - pkg-config
-    - flex
-    - gperf
-    - bison
-    - help2man
-    - texinfo

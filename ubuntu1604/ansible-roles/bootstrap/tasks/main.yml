@@ -21,7 +21,9 @@
   when: apt_update|changed
 
 # Ubuntu本体のアップデートでこれはいらなくなった？
-# upgrade後に実行してもエラーになるようになった
+# upgrade後に下記コマンドを実行してもエラーになるようになった
+# echo "set grub-pc/install_devices /dev/sda" | debconf-communicate
+#
 # # これ以降、grubのアップデート時に、インストール先を問い合わせされないようにする
 # # ための設定。upgradeの前にこれを実行しても、grub-pc/install_devicesっていうエン
 # # トリはないよ！というエラーになってしまう。
@@ -67,6 +69,12 @@
   apt: name={{ item }} state=present
   with_items:
     - software-properties-common
+
+# 日本語IME
+- name: install MOZC
+  apt: name="{{ item }}"
+  with_items:
+    - "ibus-mozc"
 
 - name: bashrc TERM settings
   become: no

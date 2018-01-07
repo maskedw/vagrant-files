@@ -1,0 +1,23 @@
+- name: install build_core
+  become: yes
+  apt: name={{ item }} state=present
+  with_items:
+    # アプリケーションをソースからビルドする際に、この辺のパッケージはよく必要になる
+    - libtiff5-dev
+    - libjpeg8-dev
+    - libfreetype6-dev
+    - libncurses5-dev
+    - libncursesw5-dev
+    - libxmu-dev
+    - libxpm-dev
+    - libevent-dev
+    - libtool
+    - libtool-bin
+    - autoconf
+    - automake
+    - pkg-config
+    - flex
+    - gperf
+    - bison
+    - help2man
+    - texinfo

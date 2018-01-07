@@ -1,0 +1,21 @@
+---
+- name: install linter
+  become: 'yes'
+  apt: name={{ item }} state=present
+  with_items:
+    # shellscriptのLinter
+    - shellcheck
+    # C/C++のLinter
+    - clang-tidy
+
+- name: install linter from pip
+  become: 'yes'
+  pip:
+    name={{ item }}
+    executable=/usr/bin/pip3
+  with_items:
+    - ansible-lint
+    - pyformat
+    - flake8
+    - yamllint
+    - ansible-lint

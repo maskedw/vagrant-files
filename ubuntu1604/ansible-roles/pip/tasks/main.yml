@@ -1,0 +1,30 @@
+---
+- name: install pip2
+  become: 'yes'
+  apt: name={{ item }} state=present
+  with_items:
+    - python-pip
+  register: pip2_installed
+
+- name: install pip3
+  become: 'yes'
+  apt: name={{ item }} state=present
+  with_items:
+    - python3-pip
+  register: pip3_installed
+
+- name: Upgrade pip2
+  become: 'yes'
+  pip:
+    name: pip
+    executable: /usr/bin/pip2
+    extra_args: --upgrade
+  when: pip2_installed|changed
+
+- name: Upgrade pip3
+  become: 'yes'
+  pip:
+    name: pip
+    executable: /usr/bin/pip3
+    extra_args: --upgrade
+  when: pip3_installed|changed

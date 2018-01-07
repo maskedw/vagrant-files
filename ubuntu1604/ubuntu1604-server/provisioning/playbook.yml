@@ -1,0 +1,10 @@
+---
+- hosts: all
+  roles:
+    - bootstrap
+    - apt_utils
+    - pip
+    - ansible
+    - git
+    - core_utils
+    - linter

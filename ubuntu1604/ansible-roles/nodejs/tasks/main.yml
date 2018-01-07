@@ -1,0 +1,19 @@
+- name: install 'nodejs'
+  become: yes
+  # http://qiita.com/seibe/items/36cef7df85fe2cefa3ea
+  shell: |
+      apt-get install -y nodejs npm
+      npm cache clean
+      npm install n -g
+      n stable
+      apt-get purge -y nodejs npm
+  args:
+    creates: /usr/local/bin/node
+
+- name: install 'electron'
+  become: yes
+  # https://github.com/npm/npm/issues/17268
+  shell: |
+      npm install -g electron --unsafe-perm=true --allow-root
+  args:
+    creates: /usr/local/bin/electron
